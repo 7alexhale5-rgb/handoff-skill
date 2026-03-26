@@ -20,13 +20,32 @@ LLM context windows are ephemeral. When a Claude Code session ends — context d
 
 ## Installation
 
-### As a Claude Code Skill
+### One-liner (recommended)
 
-Copy `SKILL.md` to your Claude Code skills directory:
+```bash
+curl -sL https://raw.githubusercontent.com/7alexhale5-rgb/handoff-skill/main/install.sh | bash
+```
+
+This installs the core `/handoff` skill plus three companion skills (`/pause-work`, `/resume-work`, `/close-day`) into `~/.claude/skills/`. Existing companion skills are not overwritten.
+
+### Manual install
 
 ```bash
 mkdir -p ~/.claude/skills/handoff
-cp SKILL.md ~/.claude/skills/handoff/SKILL.md
+curl -sL https://raw.githubusercontent.com/7alexhale5-rgb/handoff-skill/main/SKILL.md \
+  -o ~/.claude/skills/handoff/SKILL.md
+```
+
+### From source
+
+```bash
+git clone https://github.com/7alexhale5-rgb/handoff-skill.git
+cp handoff-skill/SKILL.md ~/.claude/skills/handoff/SKILL.md
+# Optional companions:
+for s in pause-work resume-work close-day; do
+  mkdir -p ~/.claude/skills/$s
+  cp handoff-skill/companions/$s.md ~/.claude/skills/$s/SKILL.md
+done
 ```
 
 Then invoke with `/handoff` in any Claude Code session.
