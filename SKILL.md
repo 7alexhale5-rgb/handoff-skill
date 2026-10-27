@@ -7,7 +7,9 @@ description: Full session handoff — saves state, generates handoff doc + resum
 
 Combines `/sc` persist logic with handoff doc generation and a ready-to-paste resume prompt. Use when you need deep context preservation across session boundaries.
 
-**When to use**: Context depleted (CARL DEPLETED), ending a session with work to continue, or switching between projects mid-stream.
+**When to use**: Context depleted (CARL DEPLETED), ending a session with work to continue, or switching between projects mid-stream. If you also use `/closeout-stack`, that is the end-of-session step (it runs this persist logic and adds commit, ship and receipt); use `/handoff` alone for a mid-stream context swap.
+
+> **Reserved section: `## Retro Findings`.** A closeout pipeline may append a `## Retro Findings` section to the handoff doc after this skill returns. It is load-bearing for the next session's pickup. Never overwrite, move or delete it. If one already exists when this skill writes to an existing handoff doc, leave it intact.
 
 ---
 
@@ -147,16 +149,27 @@ Write:
 
 ## Step 6: Generate Resume Prompt
 
-Build a ready-to-paste prompt and display it clearly:
+**Required**: every handoff, however it was triggered, prints a standalone resume prompt to the user. It is the main deliverable they copy into the next session, so never leave it only inside the handoff file.
+
+Build a ready-to-paste prompt and display it as a fenced code block:
 
 ```
-Resume prompt (copy-paste after /compact or in new session):
-───────────────────────────────────────────────────
-I'm resuming work on {project}. Read the handoff doc at
-{handoff_file_path} and continue from where we left off.
-Focus on: {next immediate action from What's Next #1}.
-───────────────────────────────────────────────────
+cd {project-dir} && Resume {project}: {next task}.
+Read the handoff at {handoff_file_path}.
+{one line on what was just finished, with the commit hash if there is one}.
+{current numbers: tables, routes, tests}.
+NEXT: {the specific next action, naming the skill to run}.
 ```
+
+**Rules for resume prompts:**
+
+- A fenced code block, so it copies in one click.
+- The first line moves into the project folder.
+- Include the commit hash when code was committed.
+- Include concrete numbers (tables, routes, tests).
+- The NEXT line names the exact skill to run, for example `/planning-stack <task>`.
+- Five or six lines at most. It gets pasted raw into a new session.
+- Name the handoff file path so the new session can read the full context.
 
 ---
 
