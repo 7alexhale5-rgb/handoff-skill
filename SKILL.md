@@ -128,7 +128,7 @@ Write to `HANDOFF-{TOPIC}-{YYYYMMDD}.md`:
 - **Be specific.** File paths, function names, error messages — not vague summaries.
 - **"What's Next" is ordered.** Item 1 is the very next thing to do.
 - **Omit empty sections.** No "Constraints: None."
-- **Keep it under 60 lines.** This gets read into context on resume.
+- **Keep it under 60 lines** (a `## Retro Findings` section does not count). This gets read into context on resume.
 
 Also write a copy to the memory vault for cross-session search:
 
@@ -155,7 +155,7 @@ Write:
 Build a ready-to-paste prompt and display it as a fenced code block:
 
 ```
-cd {project-dir} && Resume {project}: {next task}.
+cd "{project-dir}" && Resume {project}: {next task}.
 Read the handoff at {handoff_file_path}.
 {one line on what was just finished, with the commit hash if there is one}.
 {numbers this session produced, if any: tests run and passed, files changed}.
@@ -166,7 +166,7 @@ NEXT: {the specific next action, naming the skill to run}.
 
 - A fenced code block, so it copies in one click.
 - The first line moves into the project folder.
-- Include a commit hash only for a commit made in Step 2 of this run. A commit made later (for example by `/closeout-stack` after this skill returns) is outside this prompt.
+- Include a commit hash only when the user agreed to commit in Step 2 and you made that commit; use its hash. If they declined, include no hash. A commit made later (for example by `/closeout-stack` after this skill returns) is outside this prompt.
 - Only include numbers this session actually measured. Never invent counts; for a research or writing session, drop that line.
 - The NEXT line is What's Next item 1. Name the skill to run when that item calls for one, for example `/planning-stack <task>`.
 - Five or six lines at most. It gets pasted raw into a new session.

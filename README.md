@@ -117,8 +117,7 @@ Every handoff generates a ready-to-paste prompt:
 ```
 cd ~/Projects/my-app && Resume my-app: auth refactor.
 Read the handoff at ~/Projects/my-app/.planning/HANDOFF-AUTH-REFACTOR-20260326.md.
-Moved session checks into proxy.ts (a1b2c3d).
-42 tests run, 42 passed.
+Moved session checks into proxy.ts.
 NEXT: Add CSRF exemption for webhook routes in proxy.ts.
 ```
 
