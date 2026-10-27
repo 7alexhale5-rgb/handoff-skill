@@ -105,7 +105,7 @@ The core output is a structured markdown file (`HANDOFF-{TOPIC}-{DATE}.md`) writ
 
 - **Specificity over brevity** — File paths, function names, error messages. Not "made progress on auth."
 - **60-line cap** — Handoff docs get loaded into context on resume. Every line costs tokens.
-- **Ordered next-actions** — Item 1 in "What's Next" is always the immediate next action. The resume prompt references it directly.
+- **Ordered next-actions** — Item 1 in "What's Next" is always the immediate next action. The resume prompt's NEXT line is that item.
 - **Never auto-commit** — Git state is surfaced, not managed. The skill asks; you decide.
 - **Dual-write pattern** — Every handoff writes to both the project directory (for immediate use) and a persistent vault (for cross-project search).
 - **Omit empty sections** — No "Constraints: None." If a section has nothing, skip it.
@@ -115,13 +115,10 @@ The core output is a structured markdown file (`HANDOFF-{TOPIC}-{DATE}.md`) writ
 Every handoff generates a ready-to-paste prompt:
 
 ```
-Resume prompt (copy-paste after /compact or in new session):
-───────────────────────────────────────────────────
-I'm resuming work on my-app. Read the handoff doc at
-~/Projects/my-app/.planning/HANDOFF-AUTH-REFACTOR-20260326.md
-and continue from where we left off.
-Focus on: Add CSRF exemption for webhook routes in proxy.ts.
-───────────────────────────────────────────────────
+cd ~/Projects/my-app && Resume my-app: auth refactor.
+Read the handoff at ~/Projects/my-app/.planning/HANDOFF-AUTH-REFACTOR-20260326.md.
+Moved session checks into proxy.ts.
+NEXT: Add CSRF exemption for webhook routes in proxy.ts.
 ```
 
 ## Companion Skills

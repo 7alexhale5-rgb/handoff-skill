@@ -7,7 +7,9 @@ description: Full session handoff — saves state, generates handoff doc + resum
 
 Combines `/sc` persist logic with handoff doc generation and a ready-to-paste resume prompt. Use when you need deep context preservation across session boundaries.
 
-**When to use**: Context depleted (CARL DEPLETED), ending a session with work to continue, or switching between projects mid-stream.
+**When to use**: Context depleted (CARL DEPLETED), ending a session with work to continue, or switching between projects mid-stream. If you also use `/closeout-stack`, that is the end-of-session step (it runs this persist logic and adds commit, ship and receipt); use `/handoff` alone for a mid-stream context swap.
+
+> **Reserved section: `## Retro Findings`.** A closeout pipeline may append a `## Retro Findings` section to the handoff doc after this skill returns. It is load-bearing for the next session's pickup. Never overwrite, move or delete it. If one already exists when this skill writes to an existing handoff doc, leave it intact.
 
 ---
 
@@ -122,10 +124,11 @@ Write to `HANDOFF-{TOPIC}-{YYYYMMDD}.md`:
 ```
 
 ### Handoff Doc Rules
+- **Keep a Retro Findings section.** Before writing, read both the project file and its vault copy if either exists. Copy any `## Retro Findings` section byte for byte onto the end of the new document, and write that same section to both copies. It does not count toward the 60-line limit and is never omitted.
 - **Be specific.** File paths, function names, error messages — not vague summaries.
 - **"What's Next" is ordered.** Item 1 is the very next thing to do.
 - **Omit empty sections.** No "Constraints: None."
-- **Keep it under 60 lines.** This gets read into context on resume.
+- **Keep it under 60 lines** (a `## Retro Findings` section does not count). This gets read into context on resume.
 
 Also write a copy to the memory vault for cross-session search:
 
@@ -147,16 +150,28 @@ Write:
 
 ## Step 6: Generate Resume Prompt
 
-Build a ready-to-paste prompt and display it clearly:
+**Required**: every handoff, however it was triggered, prints a standalone resume prompt to the user. It is the main deliverable they copy into the next session, so never leave it only inside the handoff file.
+
+Build a ready-to-paste prompt and display it as a fenced code block:
 
 ```
-Resume prompt (copy-paste after /compact or in new session):
-───────────────────────────────────────────────────
-I'm resuming work on {project}. Read the handoff doc at
-{handoff_file_path} and continue from where we left off.
-Focus on: {next immediate action from What's Next #1}.
-───────────────────────────────────────────────────
+cd "{project-dir}" && Resume {project}: {next task}.
+Read the handoff at {handoff_file_path}.
+{one line on what was just finished, with the commit hash if there is one}.
+{numbers this session produced, if any: tests run and passed, files changed}.
+NEXT: {the specific next action, naming the skill to run}.
 ```
+
+**Rules for resume prompts:**
+
+- A fenced code block, so it copies in one click.
+- The first line moves into the project folder.
+- Include a commit hash only when the user agreed to commit in Step 2 and you made that commit; use its hash. If they declined, include no hash. A commit made later (for example by `/closeout-stack` after this skill returns) is outside this prompt.
+- Only include numbers this session actually measured. Never invent counts; for a research or writing session, drop that line.
+- The NEXT line is What's Next item 1. Name the skill to run when that item calls for one, for example `/planning-stack <task>`.
+- Five or six lines at most. It gets pasted raw into a new session.
+- Name the handoff file path so the new session can read the full context. If no handoff doc was written (see Edge Cases), drop that line and say so.
+- When `/closeout-stack` runs this skill, print only one resume prompt for the session, in this format.
 
 ---
 
