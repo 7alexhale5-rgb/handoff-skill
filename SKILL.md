@@ -124,6 +124,7 @@ Write to `HANDOFF-{TOPIC}-{YYYYMMDD}.md`:
 ```
 
 ### Handoff Doc Rules
+- **Keep a Retro Findings section.** If the file (or its vault copy) already exists, read it first. Copy any `## Retro Findings` section verbatim onto the end of the new document before you write it.
 - **Be specific.** File paths, function names, error messages — not vague summaries.
 - **"What's Next" is ordered.** Item 1 is the very next thing to do.
 - **Omit empty sections.** No "Constraints: None."
@@ -157,7 +158,7 @@ Build a ready-to-paste prompt and display it as a fenced code block:
 cd {project-dir} && Resume {project}: {next task}.
 Read the handoff at {handoff_file_path}.
 {one line on what was just finished, with the commit hash if there is one}.
-{current numbers: tables, routes, tests}.
+{numbers this session produced, if any: tests run and passed, files changed}.
 NEXT: {the specific next action, naming the skill to run}.
 ```
 
@@ -165,11 +166,12 @@ NEXT: {the specific next action, naming the skill to run}.
 
 - A fenced code block, so it copies in one click.
 - The first line moves into the project folder.
-- Include the commit hash when code was committed.
-- Include concrete numbers (tables, routes, tests).
+- Take the commit hash from `git log -1 --format=%h` in the project folder. Leave it out when no commit was made this session.
+- Only include numbers this session actually measured. Never invent counts; for a research or writing session, drop that line.
 - The NEXT line names the exact skill to run, for example `/planning-stack <task>`.
 - Five or six lines at most. It gets pasted raw into a new session.
 - Name the handoff file path so the new session can read the full context.
+- When `/closeout-stack` runs this skill, print only one resume prompt for the session, in this format.
 
 ---
 
