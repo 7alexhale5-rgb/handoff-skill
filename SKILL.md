@@ -124,7 +124,7 @@ Write to `HANDOFF-{TOPIC}-{YYYYMMDD}.md`:
 ```
 
 ### Handoff Doc Rules
-- **Keep a Retro Findings section.** If the file (or its vault copy) already exists, read it first. Copy any `## Retro Findings` section verbatim onto the end of the new document before you write it.
+- **Keep a Retro Findings section.** Before writing, read both the project file and its vault copy if either exists. Copy any `## Retro Findings` section byte for byte onto the end of the new document, and write that same section to both copies. It does not count toward the 60-line limit and is never omitted.
 - **Be specific.** File paths, function names, error messages — not vague summaries.
 - **"What's Next" is ordered.** Item 1 is the very next thing to do.
 - **Omit empty sections.** No "Constraints: None."
@@ -166,11 +166,11 @@ NEXT: {the specific next action, naming the skill to run}.
 
 - A fenced code block, so it copies in one click.
 - The first line moves into the project folder.
-- Take the commit hash from `git log -1 --format=%h` in the project folder. Leave it out when no commit was made this session.
+- Include a commit hash only for a commit made in Step 2 of this run. A commit made later (for example by `/closeout-stack` after this skill returns) is outside this prompt.
 - Only include numbers this session actually measured. Never invent counts; for a research or writing session, drop that line.
-- The NEXT line names the exact skill to run, for example `/planning-stack <task>`.
+- The NEXT line is What's Next item 1. Name the skill to run when that item calls for one, for example `/planning-stack <task>`.
 - Five or six lines at most. It gets pasted raw into a new session.
-- Name the handoff file path so the new session can read the full context.
+- Name the handoff file path so the new session can read the full context. If no handoff doc was written (see Edge Cases), drop that line and say so.
 - When `/closeout-stack` runs this skill, print only one resume prompt for the session, in this format.
 
 ---
